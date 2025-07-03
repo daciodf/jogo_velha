@@ -32,7 +32,7 @@ docker build -t jogo-velha .
 
 2. Execute o container:
 ```bash
-docker run -d -p 8080:80 --name jogo-velha jogo-velha
+docker run -d -p 8080:80 --name jogo-velha kambura/jogo_velha:latest
 ```
 
 3. Acesse o jogo em: http://localhost:8080

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Velha</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Jogo da Velha com efeitos especiais e personalização">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Jogo da Velha">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9InVybCgjZ3JhZGllbnQpIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50IiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM2NjdlZWE7c3RvcC1vcGFjaXR5OjEiIC8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6Izc2NGJhMjs7c3RvcC1vcGFjaXR5OjEiIC8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4PSI0OCIgeT0iNDgiPgo8cGF0aCBkPSJNMzIgMjRIMjRWMzJIMzJWMjRaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNNDggMjRINDBWMzJINDhWMjRaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNNjQgMjRINjJWMzJINjRWMjRaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMzIgNDBIMjRWNDhIMzJWNDBaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNNDggNDBINDBWNDhINDhWNDBaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNNjQgNDBINjJWNDhINjRWNDBaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMzIgNTZIMjRWNjRIMzJWNTZaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNNDggNTZINDBWNjRINDhWNTZaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNNjQgNTZINjJWNjRINjRWNTZaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Jogo da Velha</h1>
+            <button class="settings-btn" id="settingsBtn" title="Configurações">
+                ⚙️
+            </button>
+        </div>
+        
+        <div class="player-names">
+            <div class="player-input">
+                <label for="playerX">Jogador X:</label>
+                <input type="text" id="playerX" placeholder="Nome do jogador X" value="Jogador X">
+            </div>
+            <div class="player-input">
+                <label for="playerO">Jogador O:</label>
+                <input type="text" id="playerO" placeholder="Nome do jogador O" value="Jogador O">
+            </div>
+        </div>
+        
+        <div class="status" id="status">Vez do jogador X</div>
+        
+        <div class="game-board" id="board">
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+        </div>
+        
+        <button class="restart-btn" id="restartBtn">Novo Jogo</button>
+        
+        <div class="score-board">
+            <div class="score">
+                <span class="player" id="playerXDisplay">Jogador X</span>
+                <span class="score-value" id="scoreX">0</span>
+            </div>
+            <div class="score">
+                <span class="player" id="playerODisplay">Jogador O</span>
+                <span class="score-value" id="scoreO">0</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Configurações -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>⚙️ Configurações</h2>
+                <button class="close-btn" id="closeSettings">×</button>
+            </div>
+            <div class="modal-content">
+                <div class="setting-group">
+                    <h3>🎨 Cores dos Jogadores</h3>
+                    <div class="color-setting">
+                        <label for="colorX">Cor do Jogador X:</label>
+                        <input type="color" id="colorX" value="#ff6b6b">
+                    </div>
+                    <div class="color-setting">
+                        <label for="colorO">Cor do Jogador O:</label>
+                        <input type="color" id="colorO" value="#4ecdc4">
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <h3>🎯 Fundo do Tabuleiro</h3>
+                    <div class="background-setting">
+                        <label for="boardBackground">Cor de fundo:</label>
+                        <input type="color" id="boardBackground" value="#2d3748">
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <h3>🌙 Modo Escuro/Claro</h3>
+                    <div class="theme-toggle">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="darkModeToggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                        <span class="toggle-label">Modo Escuro</span>
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <h3>🎨 Temas Pré-definidos</h3>
+                    <div class="theme-buttons">
+                        <button class="theme-btn" data-theme="default">Padrão</button>
+                        <button class="theme-btn" data-theme="dark">Escuro</button>
+                        <button class="theme-btn" data-theme="nature">Natureza</button>
+                        <button class="theme-btn" data-theme="sunset">Pôr do Sol</button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <h3>🔊 Opções de Som</h3>
+                    <div class="sound-setting">
+                        <label>
+                            <input type="checkbox" id="victorySoundToggle" checked>
+                            Som de vitória
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <h3>🤖 Modo de Jogo</h3>
+                    <div class="ai-setting">
+                        <label>
+                            <input type="checkbox" id="aiToggle">
+                            Jogar contra o computador
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <button id="resetScoreBtn" class="reset-score-btn">Zerar Placar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        // Registrar Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registrado: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW falhou: ', registrationError);
+                    });
+            });
+        }
+
+        // Prompt de instalação PWA
+        let deferredPrompt;
+        const installButton = document.createElement('button');
+        installButton.textContent = '📱 Instalar App';
+        installButton.className = 'install-btn';
+        installButton.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: none;
+            transition: all 0.3s ease;
+        `;
+        
+        installButton.addEventListener('click', () => {
+            installButton.style.display = 'none';
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('Usuário aceitou a instalação');
+                } else {
+                    console.log('Usuário rejeitou a instalação');
+                }
+                deferredPrompt = null;
+            });
+        });
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installButton.style.display = 'block';
+        });
+
+        window.addEventListener('appinstalled', () => {
+            console.log('PWA instalado');
+            installButton.style.display = 'none';
+        });
+
+        document.body.appendChild(installButton);
+    </script>
+</body>
+</html> 
